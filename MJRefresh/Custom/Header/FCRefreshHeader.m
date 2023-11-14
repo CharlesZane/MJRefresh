@@ -27,7 +27,7 @@
 {
     [super placeSubviews];
     self.loadingImageView.frame = CGRectMake(0, 0, 24, 24);
-    self.loadingImageView.center = CGPointMake(self.mj_w * 0.5, - self.loadingImageView.mj_h + 20);
+    self.loadingImageView.center = CGPointMake(self.mj_w* 0.5, self.mj_h * 0.5);
 }
 
 
