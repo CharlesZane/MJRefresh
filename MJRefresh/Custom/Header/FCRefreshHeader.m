@@ -35,7 +35,7 @@
        CABasicAnimation *loadingAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
         loadingAnimation.fromValue = [NSNumber numberWithFloat:0.f];
         loadingAnimation.toValue = [NSNumber numberWithFloat: M_PI *2];
-        loadingAnimation.duration = self.loadingDuration > 0 ? self.loadingDuration :  1;
+        loadingAnimation.duration = self.loadingDuration > 0 ? self.loadingDuration :  0.6;
         loadingAnimation.autoreverses = NO;
         loadingAnimation.fillMode = kCAFillModeForwards;
         loadingAnimation.repeatCount = MAXFLOAT;
@@ -51,7 +51,17 @@
 - (void)scrollViewContentOffsetDidChange:(NSDictionary *)change
 {
     [super scrollViewContentOffsetDidChange:change];
-
+    
+    CGFloat offsetY = self.scrollView.mj_offsetY;
+    // 头部控件刚好出现的offsetY
+    CGFloat happenOffsetY = - self.scrollViewOriginalInset.top;
+    
+    // 如果是向上滚动到看不见头部控件，直接返回
+    // >= -> >
+    if (offsetY > happenOffsetY) {
+        [self stopAnimation];
+        return;  
+    }
 }
 
 #pragma mark 监听scrollView的contentSize改变
@@ -75,7 +85,7 @@
 
     switch (state) {
         case MJRefreshStateIdle:
-            [self stopAnimation];
+            //[self stopAnimation];
             break;
         case MJRefreshStatePulling:
             [self stopAnimation];
